@@ -19,7 +19,8 @@ int generateRand_0_100();
 void addElementToTheEnd(A * root, int value);
 void destroyList(A* root);
 void destroyListRercursion(A* root);
-
+void deleteElementFromTheEnd(A * root, int pos_end);
+void printListElements(A * root);
 int generateRand_0_100()
 {
     return 0 + rand() % (100 - 0);
@@ -71,6 +72,44 @@ void destroyListRercursion(A* root)
             destroyListRercursion(root);
     }
 }
+
+void deleteElementFromTheEnd(A * root, int pos_end)
+{
+    int listSize = 0;
+    A * ptr_cursor = root;
+    
+    while(ptr_cursor != nullptr)
+    {
+        listSize++;
+        ptr_cursor = ptr_cursor->m_next;
+    }
+    
+    if(listSize != 0 && pos_end >= 0 && pos_end < listSize)
+    {
+        ptr_cursor = root;
+        
+        for(int i = 0; i < listSize - pos_end - 1 - 1; i++)
+        {
+            ptr_cursor = ptr_cursor->m_next;
+        }
+        
+        A * ptr_destroyer = ptr_cursor->m_next;
+        ptr_cursor->m_next = ptr_destroyer->m_next;
+        
+        delete ptr_destroyer;
+    }
+}
+
+void printListElements(A * root)
+{
+    A * ptr_cursor = root;
+    std::cout << "\n\nList Elements \n\n" ;
+    while(ptr_cursor  != nullptr)
+    {
+        std::cout << "Element Id : " <<ptr_cursor->m_id << "   next_Adresse : " << ptr_cursor->m_next << "\n";
+        ptr_cursor = ptr_cursor->m_next;
+    }
+}
 int main()
 {
     srand ( time(NULL) );
@@ -89,10 +128,14 @@ int main()
     addElementToTheEnd(First, 16);
     addElementToTheEnd(First, 18);
 
-    for (int i = 0; i <= 9 ; ++i)
-            addElementToTheEnd(First,generateRand_0_100());
+ //   for (int i = 0; i <= 9 ; ++i)
+  //          addElementToTheEnd(First,generateRand_0_100());
 
-    destroyList(First);
+//    destroyList(First);
 
+printListElements(First);
+
+deleteElementFromTheEnd(First, 2);
+printListElements(First);
     return 0;
 }
